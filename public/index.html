@@ -69,16 +69,16 @@
 
       // connect to ws_host:ws_port
       var socket = io.connect("https://" + q.ws_host + ":" + q.ws_port);
-      socket.on("connect", function(msg) {
-        //TODO take care not to create duplicate listeners - use socket.hasListeners to check
-        socket.on("message", receiveMsg);
-        //	socket.on('disconnect', ...
-        //	socket.on('connect_failed', ...
-        //	socket.on('error', ...
+      // socket.on("connect", function(msg) {
+      //   //TODO take care not to create duplicate listeners - use socket.hasListeners to check
+      //   socket.on("message", receiveMsg);
+      //   //	socket.on('disconnect', ...
+      //   //	socket.on('connect_failed', ...
+      //   //	socket.on('error', ...
 
-        // set up the session - this will trigger the server to send all the table details:
-        sendMsg("setSession", [q.gtbl_id_enc]);
-      });
+      //   // set up the session - this will trigger the server to send all the table details:
+      //   sendMsg("setSession", [q.gtbl_id_enc]);
+      // });
     </script>
     <div id="root"></div>
   </body>
