@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Test page</title>
+
+	    <!-- script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script  -->
+	    <script src="/socket.io.js"></script>
+	</head>
+	<body>
+		<h1>Test page</h1>
+		<p>See console...</p>
+
+	<script type="text/javascript">
+
+		// get URL params into an array:
+		li = ('' + document.location.search).replace(/^\?/, '').split('&');
+		q = {};
+		for (i=0; i<li.length; i++) {
+			it = li[i].split('=');
+			q[unescape(it[0])] = unescape(it[1]);
+		}
+
+		console.log('Query params:');
+		console.log(q);
+
+		var receiveMsg = function(text) {
+			var params = text.split('|'); //.map(p => Base64.Decode(p)); // we are not using b64 now
+			var message = params.shift(); // message, eg. playerSitOut, clearTable
+			console.log("Recevied "+message+", with params "+ params.join("; "));
+		};
+
+		var sendMsg = function(action, params) { // params is an array
+			params.unshift(action);
+			var text = params.map(p => p.toString()).join('|'); // we are not using base64 now, just convert them to string
+			console.log('Sending '+params.join(', ')+' encoded as '+text);
+			socket.send(text);
+		};
+
+		// connect to ws_host:ws_port 
+		var socket = io.connect('https://' + q.ws_host + ':' + q.ws_port);
+		socket.on('connect', function(msg) {
+		//TODO take care not to create duplicate listeners - use socket.hasListeners to check
+			socket.on('message', receiveMsg);
+		//	socket.on('disconnect', ...
+		//	socket.on('connect_failed', ...
+		//	socket.on('error', ...
+
+			// set up the session - this will trigger the server to send all the table details:
+			sendMsg('setSession', [q.gtbl_id_enc]);
+		});
+
+	</script>
+	</body>
+</html>
