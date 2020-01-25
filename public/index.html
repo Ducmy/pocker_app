@@ -51,13 +51,15 @@
       console.log("Query params:");
       console.log(q);
 
-      var receiveMsg = function(text) {
-        var params = text.split("|"); //.map(p => Base64.Decode(p)); // we are not using b64 now
-        var message = params.shift(); // message, eg. playerSitOut, clearTable
-        console.log(
-          "Recevied " + message + ", with params " + params.join("; ")
-        );
-      };
+      var message_store;
+
+      // var receiveMsg = function(text) {
+      //   var params = text.split("|"); //.map(p => Base64.Decode(p)); // we are not using b64 now
+      //   var message = params.shift(); // message, eg. playerSitOut, clearTable
+      //   console.log(
+      //     "Recevied " + message + ", with params " + params.join("; ")
+      //   );
+      // };
 
       var sendMsg = function(action, params) {
         // params is an array
