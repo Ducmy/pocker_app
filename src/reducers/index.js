@@ -1,11 +1,17 @@
 import initialState from "../actions";
 
+// Create Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "UPDATE_USER":
+    case "UPDATE_MSG":
       return {
         ...state,
-        user: action.payload
+        mgs: action.payload
+      };
+    case "UPDATE_RECEIVE":
+      return {
+        ...state,
+        receiveMsg: action.payload
       };
     default:
       return state;

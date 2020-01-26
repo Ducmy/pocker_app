@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import "./App.css";
 import { connect } from "react-redux";
-
-const receiveMsg = text => {
-  var params = text.split("|"); //.map(p => Base64.Decode(p)); // we are not using b64 now
-  var message = params.shift(); // message, eg. playerSitOut, clearTable
-  console.log("Recevied " + message + ", with params " + params.join("; "));
-};
+import { TableDetails } from "./containers/TableDetails";
 
 const sendMsg = (action, params) => {
   // params is an array
@@ -24,7 +19,7 @@ const socket = io.connect(
 class App extends Component {
   constructor(props) {
     super();
-    this.state = { msg: "", chat: [] };
+    this.state = { mgs: window.q.gtbl_id_enc, receiveMsg: [] };
   }
 
   componentDidMount() {
@@ -33,39 +28,59 @@ class App extends Component {
     socket.on("message", text => {
       var params = text.split("|"); //.map(p => Base64.Decode(p)); // we are not using b64 now
       var message = params.shift(); // message, eg. playerSitOut, clearTable
-      console.log("Recevied " + message + ", with params " + params.join("; "));
+      //console.log("Recevied " + message + ", with params " + params.join("; "));
       this.setState({
-        chat: [...this.state.chat, params]
+        receiveMsg: [...this.state.receiveMsg, { message, params }]
+      });
+      this.props.dispatch({
+        type: "UPDATE_RECEIVE",
+        payload: this.state.receiveMsg
       });
     });
   }
 
   onMessageSubmit = () => {
     // set up the session - this will trigger the server to send all the table details:
-    sendMsg("setSession", [window.q.gtbl_id_enc]);
+    sendMsg("setSession", [this.state.mgs]);
   };
 
-  // handleData = () => {
-  //   this.props.dispatch({ type: "UPDATE_USER", payload: "mynguyen" }); // Update user state on store
-  // };
-
   render() {
-    // const { user } = this.props;
-    console.log(this.state.chat);
+    const { receiveMsg } = this.props;
+    let table_details;
+
+    // const data = { messageA: "test", messageB: "test2" };
+    // console.log(data.messageA);
+    if (receiveMsg[2] === undefined) {
+      console.log("Not show");
+      table_details = <div>No Detail</div>;
+    } else {
+      // console.log(receiveMsg[2].message);
+      // console.log(receiveMsg[2].params);
+      table_details = <TableDetails datalist={receiveMsg[2].params} />;
+    }
+
     return (
       <div className="App">
-        <div>
-          <h1>Reasocke tessreact js app</h1>
+        <h1 style={{ textAlign: "center" }}>Test App</h1>
+        <div className="container">
+          <button onClick={this.onMessageSubmit}>Start Sesstion</button>
         </div>
-        <button onClick={this.onMessageSubmit}>Send Message</button>
-        {/* <div>Data from Redux store {user}</div>
-        <button onClick={this.handleData.bind(this)}>Click to change</button> */}
+        <h3
+          style={{
+            textAlign: "center",
+            marginTop: 20,
+            color: "blue"
+          }}
+        >
+          Table Detail
+        </h3>
+        <div className="container">{table_details}</div>
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  return { user: state.user };
+  return { receiveMsg: state.receiveMsg };
 }
 
 export default connect(mapStateToProps)(App);

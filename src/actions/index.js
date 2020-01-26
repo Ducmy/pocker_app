@@ -1,5 +1,7 @@
+// Create Action
 const initialState = {
-  user: "My Nguyen"
+  mgs: [],
+  receiveMsg: []
 };
 
 export default initialState;
