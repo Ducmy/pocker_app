@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import "./App.css";
 import { connect } from "react-redux";
 import { TableDetails } from "./containers/TableDetails";
+import { SeatPlayer } from "./components/SeatPlayer";
 
 const sendMsg = (action, params) => {
   // params is an array
@@ -19,7 +20,15 @@ const socket = io.connect(
 class App extends Component {
   constructor(props) {
     super();
-    this.state = { mgs: window.q.gtbl_id_enc, receiveMsg: [] };
+    this.state = {
+      mgs: window.q.gtbl_id_enc, // Get the gtbl_id_enc from window output
+      receiveMsg: [], // This varibale to store received messages from Socket IO response.
+      msgInput: "" // Send message
+    };
+  }
+
+  componentWillMount() {
+    sendMsg("setSession", [this.state.mgs]);
   }
 
   componentDidMount() {
@@ -39,32 +48,45 @@ class App extends Component {
     });
   }
 
-  onMessageSubmit = () => {
-    // set up the session - this will trigger the server to send all the table details:
-    sendMsg("setSession", [this.state.mgs]);
+  // onMessageSubmit = () => {
+  //   // set up the session - this will trigger the server to send all the table details:
+  //   sendMsg("setSession", [this.state.mgs]);
+  // };
+
+  onMessageSubmitInput = () => {
+    this.setState({ mgs: this.state.msgInput }, () =>
+      sendMsg("setSession", [this.state.mgs])
+    );
+  };
+
+  handleChange = e => {
+    this.setState({ msgInput: e.target.value }, () =>
+      console.log(this.state.msgInput)
+    );
   };
 
   render() {
     const { receiveMsg } = this.props;
-    let table_details;
+    console.log(receiveMsg);
+    // let table_details;
 
     // const data = { messageA: "test", messageB: "test2" };
     // console.log(data.messageA);
-    if (receiveMsg[2] === undefined) {
-      console.log("Not show");
-      table_details = <div>No Detail</div>;
-    } else {
-      // console.log(receiveMsg[2].message);
-      // console.log(receiveMsg[2].params);
-      table_details = <TableDetails datalist={receiveMsg[2].params} />;
-    }
+    // if (receiveMsg[2] === undefined) {
+    //   console.log("Not show");
+    //   table_details = <div>No Detail</div>;
+    // } else {
+    //   // console.log(receiveMsg[2].message);
+    //   // console.log(receiveMsg[2].params);
+    //   table_details = <TableDetails datalist={receiveMsg[2].params} />;
+    // }
 
     return (
       <div className="App">
         <h1 style={{ textAlign: "center" }}>Test App</h1>
-        <div className="container">
+        {/* <div className="container">
           <button onClick={this.onMessageSubmit}>Start Sesstion</button>
-        </div>
+        </div> */}
         <h3
           style={{
             textAlign: "center",
@@ -74,7 +96,26 @@ class App extends Component {
         >
           Table Detail
         </h3>
-        <div className="container">{table_details}</div>
+        <div className="container">
+          <div style={{ marginRight: 20 }}>Mesages</div>
+          <input
+            style={{ marginRight: 20 }}
+            className="search"
+            type="search"
+            placeholder="Please input here"
+            onChange={this.handleChange}
+          />
+          <button onClick={this.onMessageSubmitInput}>Send Message</button>
+        </div>
+        {/* <div className="container">{table_details}</div> */}
+        <div className="header-area"></div>
+        <div id="main-area">
+          <SeatPlayer />
+          {/* <SeatPlayer />
+          <SeatPlayer />
+          <SeatPlayer /> */}
+        </div>
+        <div id="control-area"></div>
       </div>
     );
   }

@@ -2,4 +2,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 30px;
+}
+
+.header-area {
+  width: 568px;
+  height: 30px;
+  margin: 0 auto;
+  background-color: #363636;
+}
+
+#main-area {
+  position: relative;
+  margin: 0 auto;
+  width: 568px;
+  height: 240px;
+  background-image: url("https://s3-alpha-sig.figma.com/img/ea49/7132/fca9c3a7ca59d2e7fa9d36c2c86692c4?Expires=1580688000&Signature=cpzMmcLxyAXOMAdQmPvNXabEBQuZgpmjBFwR~WCwTxDAiAZLTvwTwivG5kT3N5swb5ah-jNRwABmSZLoabdyzVT~vAsfScy86FcbUk-2G0mR9Ajjt8~vIzN10r6oDe2anQvy-A94KzuUNZP19oAjol7Z0AhMTlUIsJEWTl~GXZXQ6pBPv5YGG64GjFdOXE2Pl7aq8fVXxzDkpAO9TfjBk5Xnpe89kgEQql4dN6JM8~4rYWuLWbtgBWkIXeQMmNJhVYBOsO0CaAUnwCk3fMr-QJCRIjp~SScYnex7Mo8t~XmulZS5yERjh41-bEjQdthThNqJV5vooAQK5WuQ4rmoKw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#control-area {
+  position: relative;
+  margin: 0 auto;
+  width: 568px;
+  height: 50px;
+  background-color: #363636;
 }

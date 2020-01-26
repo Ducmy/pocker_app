@@ -1,0 +1,18 @@
+.seat-player {
+  display: flex;
+  width: 133px;
+  height: 42px;
+  border: 1px solid #000000;
+}
+
+.seat-player-img {
+  width: 40px;
+  height: 40px;
+  background: #c4c4c4;
+}
+
+.seat-player-content {
+  width: 133px;
+  height: 40px;
+  background: #1e0e0e;
+}
