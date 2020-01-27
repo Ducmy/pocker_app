@@ -1,10 +1,15 @@
 import React from "react";
 import "./empty-seat.css";
 import { sendMsg } from "../../utils/socket-io-lib";
+import { connect } from "react-redux";
 
-export const EmptySeat = ({ seatid }) => {
+const EmptySeat = ({ seatid, dispatch }) => {
   const SendMessageToServer = () => {
     sendMsg("reserveSeat", [seatid]);
+    dispatch({
+      type: "UPDATE_MSG",
+      payload: "reserveSeat"
+    });
   };
 
   return (
@@ -15,3 +20,5 @@ export const EmptySeat = ({ seatid }) => {
     </div>
   );
 };
+
+export default connect()(EmptySeat);

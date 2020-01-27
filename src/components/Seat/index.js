@@ -2,7 +2,7 @@ import React from "react";
 import "./seat.css";
 
 import { SeatPlayer } from "../SeatPlayer";
-import { EmptySeat } from "../EmptySeat";
+import EmptySeat from "../EmptySeat";
 
 export const Seat = ({ seatid, emptySeat, seatPlayer }) => {
   const emptySeatID = emptySeat.filter(seat => {

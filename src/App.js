@@ -55,8 +55,9 @@ class App extends Component {
   };
 
   render() {
-    const { receiveMsg } = this.props;
-    console.log(receiveMsg);
+    const { receiveMsg, mgs } = this.props;
+    // console.log(receiveMsg);
+    console.log(mgs);
     const emptySeat_mes = receiveMsg.filter(receive => {
       return receive.message === "emptySeat";
     });
@@ -170,7 +171,7 @@ class App extends Component {
   }
 }
 function mapStateToProps(state) {
-  return { receiveMsg: state.receiveMsg };
+  return { receiveMsg: state.receiveMsg, mgs: state.mgs };
 }
 
 export default connect(mapStateToProps)(App);
