@@ -1,0 +1,11 @@
+.seat-player {
+  position: absolute;
+  display: flex;
+  width: 133px;
+  height: 42px;
+  border: 1px solid #000000;
+}
+
+.empty-seat-btn {
+  width: 100%;
+}

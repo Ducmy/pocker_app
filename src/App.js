@@ -1,23 +1,10 @@
 import React, { Component } from "react";
-import io from "socket.io-client";
+import { sendMsg, socket } from "./utils/socket-io-lib";
 import "./App.css";
 import { connect } from "react-redux";
-// import { TableDetails } from "./containers/TableDetails";
-import { SeatPlayer } from "./components/SeatPlayer";
+import { Seat } from "./components/Seat";
 import { TableImage } from "./components/TableImage";
 import CardArea from "./containers/CardArea";
-
-const sendMsg = (action, params) => {
-  // params is an array
-  params.unshift(action);
-  var text = params.map(p => p.toString()).join("|"); // we are not using base64 now, just convert them to string
-  console.log("Sending " + params.join(", ") + " encoded as " + text);
-  socket.send(text);
-};
-
-const socket = io.connect(
-  "https://" + window.q.ws_host + ":" + window.q.ws_port
-);
 
 class App extends Component {
   constructor(props) {
@@ -119,52 +106,52 @@ class App extends Component {
         {/* <div className="container">{table_details}</div> */}
         <div className="header-area"></div>
         <div id="main-area">
-          <SeatPlayer
+          <Seat
             seatid="1"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="2"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="3"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="4"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="5"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="6"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="7"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="8"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="9"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
           />
-          <SeatPlayer
+          <Seat
             seatid="10"
             emptySeat={emptySeat_mes}
             seatPlayer={seatPlayer_mes}
