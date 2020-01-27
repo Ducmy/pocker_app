@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import io from "socket.io-client";
 import "./App.css";
 import { connect } from "react-redux";
-import { TableDetails } from "./containers/TableDetails";
+// import { TableDetails } from "./containers/TableDetails";
 import { SeatPlayer } from "./components/SeatPlayer";
+import { TableImage } from "./components/TableImage";
+import CardArea from "./containers/CardArea";
 
 const sendMsg = (action, params) => {
   // params is an array
@@ -68,6 +70,13 @@ class App extends Component {
   render() {
     const { receiveMsg } = this.props;
     console.log(receiveMsg);
+    const emptySeat_mes = receiveMsg.filter(receive => {
+      return receive.message === "emptySeat";
+    });
+
+    const seatPlayer_mes = receiveMsg.filter(receive => {
+      return receive.message === "seatPlayer";
+    });
     // let table_details;
 
     // const data = { messageA: "test", messageB: "test2" };
@@ -110,12 +119,65 @@ class App extends Component {
         {/* <div className="container">{table_details}</div> */}
         <div className="header-area"></div>
         <div id="main-area">
-          <SeatPlayer />
-          {/* <SeatPlayer />
-          <SeatPlayer />
-          <SeatPlayer /> */}
+          <SeatPlayer
+            seatid="1"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="2"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="3"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="4"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="5"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="6"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="7"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="8"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="9"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <SeatPlayer
+            seatid="10"
+            emptySeat={emptySeat_mes}
+            seatPlayer={seatPlayer_mes}
+          />
+          <TableImage />
+          <CardArea />
         </div>
-        <div id="control-area"></div>
+        <div id="control-area">
+          <button className="control-button">Fold</button>
+          <button className="control-button">Call</button>
+          <button className="control-button">Call any</button>
+          <button className="control-button">Bet</button>
+        </div>
       </div>
     );
   }

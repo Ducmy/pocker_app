@@ -1,0 +1,10 @@
+.card-area {
+  position: absolute;
+  width: 180px;
+  height: 52px;
+  top: 90px;
+  left: 202px;
+  background: blue;
+  display: flex;
+  justify-content: space-around;
+}
