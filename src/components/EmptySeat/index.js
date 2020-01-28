@@ -10,6 +10,10 @@ const EmptySeat = ({ seatid, dispatch }) => {
       type: "UPDATE_MSG",
       payload: "reserveSeat"
     });
+    dispatch({
+      type: "SET_MODAL_SHOW",
+      payload: true
+    });
   };
 
   return (

@@ -1,7 +1,9 @@
 // Create Action
 const initialState = {
   mgs: [],
-  receiveMsg: []
+  receiveMsg: [],
+  curSeatID: 0,
+  modalShow: false
 };
 
 export default initialState;

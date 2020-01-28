@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { sendMsg, socket } from "./utils/socket-io-lib";
+import { FilterPlayerDealerID } from "./utils/filter";
 import "./App.css";
 import { connect } from "react-redux";
-import { Seat } from "./components/Seat";
+import Seat from "./components/Seat";
 import { TableImage } from "./components/TableImage";
 import CardArea from "./containers/CardArea";
+import BuyInModal from "./containers/BuyInModal/buyin-modal";
+import PlayerControlArea from "./containers/PlayerControlArea/player-control-area";
 
 class App extends Component {
   constructor(props) {
@@ -12,12 +15,13 @@ class App extends Component {
     this.state = {
       mgs: window.q.gtbl_id_enc, // Get the gtbl_id_enc from window output
       receiveMsg: [], // This varibale to store received messages from Socket IO response.
-      msgInput: "" // Send message
+      msgInput: [], // Send message
+      paraInput: []
     };
   }
 
   componentWillMount() {
-    sendMsg("setSession", [this.state.mgs]);
+    sendMsg("setSession", [window.q.gtbl_id_enc]);
   }
 
   componentDidMount() {
@@ -37,141 +41,88 @@ class App extends Component {
     });
   }
 
-  // onMessageSubmit = () => {
-  //   // set up the session - this will trigger the server to send all the table details:
-  //   sendMsg("setSession", [this.state.mgs]);
-  // };
-
   onMessageSubmitInput = () => {
-    this.setState({ mgs: this.state.msgInput }, () =>
-      sendMsg("setSession", [this.state.mgs])
-    );
+    sendMsg(this.state.msgInput, [this.state.paraInput]);
   };
 
-  handleChange = e => {
+  handleMessageChange = e => {
     this.setState({ msgInput: e.target.value }, () =>
       console.log(this.state.msgInput)
     );
   };
 
+  handleParasChange = e => {
+    this.setState({ paraInput: e.target.value }, () =>
+      console.log(this.state.paraInput)
+    );
+  };
+
   render() {
-    const { receiveMsg, mgs } = this.props;
-    // console.log(receiveMsg);
-    console.log(mgs);
-    const emptySeat_mes = receiveMsg.filter(receive => {
-      return receive.message === "emptySeat";
+    const { receiveMsg, modalShow, curSeatID } = this.props;
+    console.log(receiveMsg);
+    console.log(curSeatID);
+    const popupBuyin_mes = receiveMsg.filter(receive => {
+      return receive.message === "popupBuyin";
     });
-
-    const seatPlayer_mes = receiveMsg.filter(receive => {
-      return receive.message === "seatPlayer";
-    });
-    // let table_details;
-
-    // const data = { messageA: "test", messageB: "test2" };
-    // console.log(data.messageA);
-    // if (receiveMsg[2] === undefined) {
-    //   console.log("Not show");
-    //   table_details = <div>No Detail</div>;
-    // } else {
-    //   // console.log(receiveMsg[2].message);
-    //   // console.log(receiveMsg[2].params);
-    //   table_details = <TableDetails datalist={receiveMsg[2].params} />;
-    // }
 
     return (
       <div className="App">
-        <h1 style={{ textAlign: "center" }}>Test App</h1>
-        {/* <div className="container">
-          <button onClick={this.onMessageSubmit}>Start Sesstion</button>
-        </div> */}
-        <h3
-          style={{
-            textAlign: "center",
-            marginTop: 20,
-            color: "blue"
-          }}
-        >
-          Table Detail
-        </h3>
+        <div className="header-area"></div>
+        <div id="main-area">
+          <Seat seatid="1" />
+          <Seat seatid="2" />
+          <Seat seatid="3" />
+          <Seat seatid="4" />
+          <Seat seatid="5" />
+          <Seat seatid="6" />
+          <Seat seatid="7" />
+          <Seat seatid="8" />
+          <Seat seatid="9" />
+          <Seat seatid="10" />
+          <TableImage />
+          <CardArea />
+        </div>
+        <PlayerControlArea />
+
         <div className="container">
           <div style={{ marginRight: 20 }}>Mesages</div>
           <input
             style={{ marginRight: 20 }}
             className="search"
             type="search"
-            placeholder="Please input here"
-            onChange={this.handleChange}
+            placeholder="Input message"
+            onChange={this.handleMessageChange}
           />
-          <button onClick={this.onMessageSubmitInput}>Send Message</button>
+          <div style={{ marginRight: 20 }}>Parameter</div>
+          <input
+            style={{ marginRight: 20 }}
+            className="search"
+            type="search"
+            placeholder="Input params"
+            onChange={this.handleParasChange}
+          />
+          <button onClick={this.onMessageSubmitInput}>Send message</button>
         </div>
-        {/* <div className="container">{table_details}</div> */}
-        <div className="header-area"></div>
-        <div id="main-area">
-          <Seat
-            seatid="1"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="2"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="3"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="4"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="5"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="6"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="7"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="8"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="9"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <Seat
-            seatid="10"
-            emptySeat={emptySeat_mes}
-            seatPlayer={seatPlayer_mes}
-          />
-          <TableImage />
-          <CardArea />
-        </div>
-        <div id="control-area">
-          <button className="control-button">Fold</button>
-          <button className="control-button">Call</button>
-          <button className="control-button">Call any</button>
-          <button className="control-button">Bet</button>
-        </div>
+        <BuyInModal
+          buyin={popupBuyin_mes}
+          show={modalShow}
+          onHide={() =>
+            this.props.dispatch({
+              type: "SET_MODAL_SHOW",
+              payload: false
+            })
+          }
+        />
       </div>
     );
   }
 }
 function mapStateToProps(state) {
-  return { receiveMsg: state.receiveMsg, mgs: state.mgs };
+  return {
+    receiveMsg: state.receiveMsg,
+    modalShow: state.modalShow,
+    curSeatID: state.curSeatID
+  };
 }
 
 export default connect(mapStateToProps)(App);

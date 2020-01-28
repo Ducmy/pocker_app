@@ -2,10 +2,15 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+.App {
+  margin-top: 100px;
+}
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 30px;
   margin-bottom: 30px;
 }
 
@@ -94,25 +99,4 @@ body {
   top: -16px;
   left: 49px;
   width: 500px;
-}
-
-#control-area {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.control-button {
-  width: 90px;
-  height: 26px;
-  background: linear-gradient(180deg, #7ccbfc 0%, #045388 100%),
-    linear-gradient(180deg, #045388 0%, #7ccbfc 100%), #0d77bf;
-  color: #ffffff;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 14px;
-  border: none;
-  margin-left: 12px;
-  font-family: "Lato", sans-serif;
 }
